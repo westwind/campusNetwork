@@ -1,9 +1,6 @@
 # campusNetwork
 The mininet topology of campus network
 
-                                                                              
-
-
     /***********Building Level*************\
    /   -----------             -----------  \
   *   |     S1    |-----------|     S2    |  *
