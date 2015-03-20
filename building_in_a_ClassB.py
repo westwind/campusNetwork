@@ -34,14 +34,14 @@ class CampusTopo(Topo):
                         self.addLink(switch, floorswitch)
 
         for b in range(1,building+1):
-            gateway =  '192.168.%d.254' % b
+            gateway =  '172.16.0.254'
             ip = 1
             for f in range(1,floor+1):
                 for r in range(1,room+1):
                     for h in range(1,host+1):
                         roomswitch = ( 's%s%s%s' %(b,f,r))
                         computer = self.addHost('h%s%s%s%s' % (b,f,r,h), 
-                                    ip='192.168.%d.%d/24' % (b,ip),
+                                    ip='172.16.%d.%d/16' % (b,ip),
                                     defaultRoute='via %s' % gateway)
                         ip = ip + 1
                         self.addLink(computer, roomswitch)
@@ -60,7 +60,7 @@ class CampusTopo(Topo):
                 self.addLink(switch1, switch2)
 
 def simpleTest():
-    topo = CampusTopo(building=5,floor=2,room=2,host=1)
+    topo = CampusTopo(building=3,floor=2,room=2,host=1)
     net = Mininet(topo, controller=RemoteController( 'c0', ip='127.0.0.1' ))
     net.start()
     print("Dumping host connections")
