@@ -72,6 +72,7 @@ def startNAT ( root, inetIntf='eth0', subnet='172.16.0.254/16'):
     root.cmd('iptables -I FORWARD -i', localIntf, '-d', subnet, '-j DROP')
     root.cmd('iptables -A FORWARD -i', localIntf, '-s', subnet, '-j ACCEPT')
     root.cmd('iptables -A FORWARD -i', inetIntf, '-d', subnet, '-j ACCEPT')
+    root.cmd('iptables -t nat -A POSTROUTING -o ', inetIntf, '-j MASQUERADE')
     root.cmd('sysctl net.ipv4.ip_forward=1')
 
 def stopNAT(root):
@@ -110,7 +111,7 @@ def simpleTest():
     dumpNodeConnections(net.hosts)
     print("Testing network connectivity")
     CLI(net)
-    stopNET(rootnode)
+    stopNAT(rootnode)
     net.stop()
 
 if __name__ == '__main__':
